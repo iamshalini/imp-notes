@@ -22,3 +22,2455 @@ var x = setInterval(function () {
     }
 }, 1000);
 /*Product Avaliable back counter*/
+
+
+
+
+
+
+
+<script type="text/javascript">
+  {% if customer.tags contains 'wholesale_starter' %}           
+      document.cookie = "is_wholesale_customer=yes";   
+  {% else %}
+      document.cookie = "is_wholesale_customer=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  {% endif %}
+</script>
+
+{% if template contains 'page'%}
+<script type="text/javascript">
+(function($){
+$(document).ready(function(){
+$(".smoothScroll").on('click', function(event) {
+        
+      if (this.hash !== "") {
+        event.preventDefault();
+        // Store hash
+        var hash = this.hash;
+        $('html, body').animate({ scrollTop: $(hash).offset().top}, 800, function(){ });
+      } // End if
+    });
+});
+ })(jQuery);
+</script>
+{% endif %}
+{% if template contains 'product'%}
+ {% if product.variants.size > 1 %}
+<script>
+(function($) {
+  $(document).ready(function(){
+  provariants = {{ product.variants | json }}; 
+  setTimeout(function() {
+  selopt = $('.product-form__variants option:selected').text().trim(); console.log(selopt);
+    var filename ='';
+    var choosevart = $('.product-form__variants option:selected').val();
+    provariants.forEach(function(obj) {
+      if(obj.id==choosevart){
+        var image = obj.featured_image.src.split('?')[0];
+        filename = image.replace(/^.*[\\\/]/, '');
+        
+      }
+    });
+    $( ".productSliderNav img" ).each(function() {
+      var image = $(this).attr('src').split('?')[0].replace(/(_thumb\.)|(_small\.)|(_compact\.)|(_medium\.)|(_large\.)|(_grande\.)/,'.');
+      var thumbname = image.replace(/^.*[\\\/]/, '');
+       var imgalt = $(this).attr('alt');
+        
+        if(filename === thumbname){
+           $(this).trigger('click');
+        }
+        if(imgalt==selopt){
+        $(this).parent().removeClass('hide');
+      }else{
+          $(this).parent().addClass('hide');
+      }
+      });
+  }, 3000);
+  $(document).on('change','.product-form__variants', function(){ 
+    seloptc = $('.product-form__variants option:selected').text().trim();  
+    var filenamec ='';
+    var choosevartc = $(this).val(); 
+    provariants.forEach(function(obj) {
+      if(obj.id==choosevartc){
+        var image = obj.featured_image.src.split('?')[0];
+        filenamec = image.replace(/^.*[\\\/]/, ''); 
+      }
+    });
+    $( ".productSliderNav img" ).each(function() {
+      var imagec = $(this).attr('src').split('?')[0].replace(/(_thumb\.)|(_small\.)|(_compact\.)|(_medium\.)|(_large\.)|(_grande\.)/,'.');
+      var thumbnamec = imagec.replace(/^.*[\\\/]/, '');
+       var imgaltc = $(this).attr('alt'); 
+        if(filenamec === thumbnamec){
+           $( this ).trigger('click');
+        }
+        if(imgaltc==seloptc){ 
+        $(this).parent().removeClass('hide');
+      }else{
+          $(this).parent().addClass('hide');
+      }
+      });
+  });
+  });
+ })(jQuery);
+</script> 
+{% endif %}
+{% endif %}
+{% if template == 'page.influencer'%}
+<script type="text/javascript">
+(function($){
+$(document).ready(function(){
+  errornotice = $("#error");
+  successnotice = $("#success");
+  emptyerror = "Please fill out this field.";
+  emailerror = "Please enter a valid e-mail.";
+  
+  $("form#Influencer_request").submit(function(){
+  required = ["first_name","last_name","password","confirm_password","custom_63246"];
+  email = $("#email");
+    payemail = $("#custom_61335");  
+    for (i=0;i<required.length;i++) {
+      var input = $('#'+required[i]); 
+      if ((input.val() == "") || (input.val() == emptyerror)) {
+        input.addClass("needsfilled");
+        input.val(emptyerror);
+        errornotice.fadeIn(750);
+      } else {
+        input.removeClass("needsfilled");
+      }
+    }
+    var newpassword = $('#password').val();
+        var conformpassword = $('#confirm_password').val();
+    if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(email.val())) {email.addClass("needsfilled");email.val(emailerror);}
+    if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(payemail.val())) {payemail.addClass("needsfilled");payemail.val(emailerror);}
+      
+      if ($(":input").hasClass("needsfilled")) { 
+    return false;
+        }else if(newpassword!=conformpassword){
+          $('#password').addClass("needsfilled");
+           $('#confirm_password').addClass("needsfilled");
+          return false;
+           
+        }
+      else { 
+     
+           var $form = $('#Influencer_request');
+          var formData = new FormData($($form.get(0))[0]);
+          $(document).ajaxStart(function(){
+  $('#Influencer_request').attr("disabled", "disabled");
+  }).ajaxStop(function(){
+  $('#Influencer_request').removeAttr("disabled");
+  }); 
+  $.ajax({
+        url: "https://mytrulydeals.com/trulybeauty/refersion.php",
+        type: 'POST',
+        data: formData,
+        async: true,
+        success: function (data) {
+      $form.find('#Influencer_request').prop('disabled', false);  
+        
+          if (data.indexOf('trulybeauty.com') > -1) {
+            $('.infulencer-response').html(data).css("color","#509d24");
+             $('.infulencer-response p').css("color","#509d24");
+          }else{
+            $('.infulencer-response').html(data).css("color","#ff0000");
+            $('.infulencer-response p').css("color","#ff0000");
+          }
+      
+        },
+    timeout: 5000000, // sets timeout to 5 seconds
+        contentType: false,
+        processData: false
+    });
+     return false;
+    }
+  });
+  });
+  $(":input").focus(function(){if ($(this).hasClass("needsfilled") ) {$(this).val("");$(this).removeClass("needsfilled");}});
+  })(jQuery);
+</script>
+
+
+{% elsif template == 'page.earlyaccess'%}
+<script type="text/javascript">
+(function($){
+$(document).ready(function(){
+  errornotice = $("#error");
+  successnotice = $("#success");
+  emptyerror = "Please fill out this field.";
+  emailerror = "Please enter a valid e-mail.";
+  
+  $("form#kiayvio_request").submit(function(){
+  required = ["phone_number","name"];
+  email = $("#email");
+      for (i=0;i<required.length;i++) {
+      var input = $('#'+required[i]); 
+      if ((input.val() == "") || (input.val() == emptyerror)) {
+        input.addClass("needsfilled");
+        input.val(emptyerror);
+        errornotice.fadeIn(750);
+      } else {
+        input.removeClass("needsfilled");
+      }
+    }
+    if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(email.val())) {email.addClass("needsfilled");email.val(emailerror);}
+    if ($('#special_offer').is(':checked')){$('#special_offer_label').css("color","#000");}
+      if ($(":input").hasClass("needsfilled")) { 
+    return false;
+        }else if (! $('#special_offer')[0].checked){
+        $('#special_offer_label').css("color","#ff0000");
+          return false;
+        } else { 
+        var $form = $('#kiayvio_request');
+          var formData = new FormData($($form.get(0))[0]);
+          $(document).ajaxStart(function(){
+  $('#submit_detail').attr("disabled", "disabled");
+  }).ajaxStop(function(){
+  $('#submit_detail').removeAttr("disabled");
+  }); 
+  $.ajax({
+        url: "https://mytrulydeals.com/trulybeauty/earlyacess-form.php",
+        type: 'POST',
+        data: formData,
+        async: true,
+        success: function (data) {
+      $form.find('#submit_detail').prop('disabled', false);  
+      $('form#kiayvio_request').get(0).reset()  ;
+          if (data.indexOf('success') > -1) {
+            $('.infulencer-response').html('<p>Thanks for subscribe.</p>').css("color","#509d24");
+             $('.infulencer-response p').css("color","#509d24");
+          }else{
+            $('.infulencer-response').html('<p>Unable to subscribe. Please try again.</p>').css("color","#ff0000");
+            $('.infulencer-response p').css("color","#ff0000");
+          }
+      
+        },
+    timeout: 5000000, // sets timeout to 5 seconds
+        contentType: false,
+        processData: false
+    });
+     return false;
+    }
+  });
+  });
+  $(":input").focus(function(){if ($(this).hasClass("needsfilled") ) {$(this).val("");$(this).removeClass("needsfilled");}});
+  })(jQuery);
+</script>
+{% elsif template == 'page.order-tracking'%}
+<script>
+  function GetURLParameter(sParam){
+  var sPageURL = window.location.search.substring(1);
+  var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++){
+    var sParameterName = sURLVariables[i].split('=');
+      if (sParameterName[0] == sParam){
+      return sParameterName[1];
+      }
+    }
+  }
+  var tLabels = GetURLParameter('tLabels');
+  
+  $(document).ready(function() {
+    
+    $.ajax({
+        url: "https://mytrulydeals.com/trulybeauty/landmarktracking.php",
+        type: 'POST',
+      data: {trackid:tLabels},
+      async: true,
+        success: function (data) { 
+      //alert(data);
+          var response = JSON.parse(data);
+          var TrackingNumber = response.TrackingNumber[0];
+          var LandmarkTrackingNumber = response.LandmarkTrackingNumber[0];
+          var PackageReference = response.PackageReference[0];
+          var ExpectedDelivery = response.ExpectedDelivery[0];
+          var tracklist = response.tracklist;
+          
+          var shippingstatus = response.shippingstatus;
+         
+    var monthNames = ["January", "February", "March", "April", "May", "June",  "July", "August", "September", "October", "November", "December"];
+        var monthshortNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]; 
+        if(shippingstatus=='Accepted'){
+        $('ul.orderTrackingBox__statusBar li:first-child').addClass('active');
+        }else if(shippingstatus=='Shipped'){
+        $('.titlefirst').html('Estimated Delivery');  
+        $('ul.orderTrackingBox__statusBar li:first-child').addClass('selected').removeClass('active');  
+        $('ul.orderTrackingBox__statusBar li:nth-child(2)').addClass('active');
+        }else if(shippingstatus=='In Transit'){
+          $('.titlefirst').html('Estimated Delivery');
+        $('ul.orderTrackingBox__statusBar li:first-child').addClass('selected').removeClass('active');  
+        $('ul.orderTrackingBox__statusBar li:nth-child(2)').addClass('selected').removeClass('active');  
+        $('ul.orderTrackingBox__statusBar li:nth-child(3)').addClass('active');  
+        }else if(shippingstatus=='Delivered'){
+        $('.titlefirst').html('Delivery');
+        $('ul.orderTrackingBox__statusBar li:first-child').addClass('selected').removeClass('active');  
+        $('ul.orderTrackingBox__statusBar li:nth-child(2)').addClass('selected').removeClass('active');
+        $('ul.orderTrackingBox__statusBar li:nth-child(3)').addClass('selected').removeClass('active');
+        $('ul.orderTrackingBox__statusBar li:nth-child(4)').addClass('active');
+        var drv = tracklist.length-1;
+          //alert(tracklist[drv]["DateTime"]);
+        var d = new Date(tracklist[drv]["DateTime"]);
+      var month = d.getMonth() + 1;
+        var weekday = weekday[d.getDay()];
+        var monthname = monthNames[d.getMonth()];
+        var edate = d.getDate();
+         $('.orderTrackingBox__estimateDay').html(edate);
+      $('.orderTrackingBox__estimateDate').html(weekday+' <br> '+monthname);
+        }
+        if (typeof ExpectedDelivery!== "undefined"){
+        var d = new Date(ExpectedDelivery);
+      var month = d.getMonth() + 1;
+        var weekday = weekday[d.getDay()];
+        var monthname = monthNames[d.getMonth()];
+        var edate = d.getDate();
+         $('.orderTrackingBox__estimateDay').html(edate);
+         $('.orderTrackingBox__estimateDate').html(weekday+' <br> '+monthname);
+        }else if(shippingstatus!='Delivered'){
+            $('.orderTrackingBox__estimateDay').html('NA');
+        $('.orderTrackingBox__estimateDate').html('');
+          }
+        $('.order_current_status').html(shippingstatus);
+        $('.tracking_number').html(LandmarkTrackingNumber);
+        if(tracklist==''){
+         $('.orderTrackingBox__shippingList').html('<li>No Tracking yet.</li>');
+         }else{
+           var tracklistreverse = tracklist.reverse();
+           trackdetail='';          
+           for (i = 0; i <tracklist.length; i++) {
+             var list='';
+             list += '<li><span class="orderTrackingBox__shippingDate"><span>';
+            if (typeof tracklist[i]["DateTime"]!== "undefined"){
+              var d = new Date(tracklist[i]["DateTime"]);
+              list += monthshortNames[d.getMonth()]+' '+d.getDate(); 
+              var hours = d.getHours();
+              var minutes = "0" + d.getMinutes();
+              var seconds = "0" + d.getSeconds();
+              list +='<br>'+hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2); 
+            }
+              list +='</span></span><div class="shipping_activity_info">';
+
+            if(typeof tracklist[i]["Status"]!== "undefined"){
+              list +='<p>'+tracklist[i]["Status"]+'</p>'; 
+            }
+              list +='<p>'; 
+            if(typeof tracklist[i]["Location"]!== "undefined"){
+              list +=tracklist[i]["Location"]; 
+            }
+            list +='</p>';
+            list +='</div></li>';             
+             trackdetail +=list;
+           }
+          
+         $('.orderTrackingBox__shippingList').html(trackdetail);
+         }
+        },
+    timeout: 5000000, // sets timeout to 5 seconds      
+    });
+    });
+    </script>
+{% elsif template == 'page.halloween'%}
+<script type="text/javascript">
+(function($){
+$(document).ready(function(){
+  /*Product Avaliable back counter*/
+var countDownDate = new Date("Nov 02 2021 00:00:00 GMT-0800").getTime();
+// Update the count down every 1 second
+var x = setInterval(function () {
+    // Get today's date and time
+    var now = new Date().getTime();
+    // Find the distance between now and the count down date
+    var distance = countDownDate - now;
+    // Time calculations for days, hours, minutes and seconds
+    var days = ('0' + Math.floor(distance / (1000 * 60 * 60 * 24))).slice(-2);
+    var hours = ('0' + Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).slice(-2);
+    var minutes = ('0' + Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).slice(-2);
+    var seconds = ('0' + Math.floor((distance % (1000 * 60)) / 1000)).slice(-2);
+    // Display the result in the element with id="demo"
+    document.getElementById("productavaliableback").innerHTML = "<span>" + days + "<span>Days</span></span><span>" + hours + "<span>Hours</span></span><span>" + minutes + "<span>Minutes</span></span><span>" + seconds + "<span>Seconds</span></span>";
+    // If the count down is finished, write some text
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("productavaliableback").innerHTML = "";
+    }
+}, 1000);
+/*Product Avaliable back counter*/
+  $('.trulySlidemain').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    fade: false,
+    infinite: false,
+    asNavFor: '.trulySlideNav'
+});
+                            
+$('.trulySlideNav').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    dots: false,
+    focusOnSelect: true,
+    infinite: false,
+    asNavFor: '.trulySlidemain',
+    arrows: true,
+    prevArrow: $(".trulySlideNav__btn.trulySlideNav__btnLeft"),
+    nextArrow: $(".trulySlideNav__btn.trulySlideNav__btnRight"),
+});
+  $(".UniwhatpeopleSay").slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+    responsive: [
+        {
+            breakpoint: 990,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1, 
+            }
+        },
+        {
+            breakpoint: 576,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }
+  
+    ]
+});
+  $('.Product__halfSliderLeft').slick({
+    slidesToShow: 1.5,
+    dots: false,
+    arrows: true,
+    prevArrow: $(".Product__halfSliderLeft__btn.onhalfSliderLeft__btnLeft"),
+    nextArrow: $(".Product__halfSliderLeft__btn.onhalfSliderLeft__btnRight"),
+});
+  });
+  function run_animate() {
+    var animation_items = $(".animate");
+
+
+
+    var ml2 = 0;
+    setInterval(function() {
+      if (ml2 <= 0 - $(".animate2 .animate-wrapper").width() / 2 - 16) {
+        ml2 = 0;
+      }
+
+      $(".animate2 .animate-wrapper").css("margin-left", ml2);
+      ml2 -= 0.5;
+    }, 20);
+       
+  }
+  
+  $(window).on("load", function() {
+    run_animate();
+  });
+  })(jQuery);
+</script>
+
+{% elsif template == 'page.cooka'%}
+<script type="text/javascript">
+(function($){
+$(document).ready(function(){
+  
+$(".beforeAfter").slick({
+    autoplay: false,
+    autoplaySpeed: 3000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+});
+$(".UniwhatpeopleSay").slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+    responsive: [
+        {
+            breakpoint: 990,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1, 
+            }
+        },
+        {
+            breakpoint: 576,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }
+  
+    ]
+});
+  if ($(window).width() <= 751) {
+
+    // accordian
+            $(document).on("click", ".mobOnlyAccordian .mobOnlyAccordian__toggle", (function () {
+            $(this).parent().siblings().removeClass("active"),
+                $(this).parent().siblings().find(".mobOnlyAccordian__cntnt").slideUp(),
+                $(this).parent().toggleClass("active"),
+                // $(this).next(".truly_product_dropdown").toggleClass("open"), 
+                $(this).next(".mobOnlyAccordian__cntnt").slideToggle(200)
+            }));
+
+  }
+  });
+  })(jQuery);
+</script>
+{% elsif template == 'page.acai-your-nippies'%}
+<script type="text/javascript">
+(function($){
+
+function bundleTable__slider() {
+    $(".bundleTable__slider").slick({
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        arrows: true,
+        dots: false,
+        prevArrow: $(".bundleTableSection__prevBtn"),
+        nextArrow: $(".bundleTableSection__nextBtn"),
+        responsive: [
+            { breakpoint: 1200, settings: { slidesToShow: 3 } },
+            { breakpoint: 990, settings: { slidesToShow: 2 } },
+            { breakpoint: 700, settings: { slidesToShow: 1 } },
+        ],
+    });
+}
+
+function setEqualHeight() {
+    
+    for (let i = 1; i < 10; i++) {
+        var $sameHeightDivs = $(`.bundleTable__col--${i}`);
+        var maxHeight = 0;
+        $sameHeightDivs.each(function () {
+            maxHeight = Math.max(maxHeight, $(this).outerHeight());
+        });
+        $sameHeightDivs.css({ height: maxHeight + 'px' });
+    }
+}
+
+$(document).ready(function () {
+    bundleTable__slider()
+    setEqualHeight();
+});
+
+$(window).on('resize', function () {
+    bundleTable__slider()
+    setEqualHeight();
+
+
+});
+  })(jQuery);
+</script>
+
+{% elsif template == 'page.legend_shave_kit' or template == 'page.legend_shave_kit1'%}
+<script type="text/javascript">
+(function($){
+$(document).ready(function(){
+  
+    $(".customeImagePopup img").click(function () {
+        var $src = $(this).attr("src");
+        $(".imagePopupopener").fadeIn();
+        $(".imagePopupopener__img .imagePopupopener__target").attr("src", $src);
+    });
+    
+    $(".imagePopupopener__close, .imagePopupopener__overlay").click(function () {
+        $(".imagePopupopener").fadeOut();
+    });
+    $(".popupSlider").slick({
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+    responsive: [
+
+        {
+            breakpoint: 750,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }
+  
+    ]
+});
+  $(".UniwhatpeopleSay").slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+    responsive: [
+        {
+            breakpoint: 990,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1, 
+            }
+        },
+        {
+            breakpoint: 576,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }
+  
+    ]
+});
+  });
+  })(jQuery);
+</script>
+{% elsif template == 'page.unicorn_party_kit_landing'%}
+<script type="text/javascript">
+(function($){
+$(document).ready(function(){
+  
+  $(".productPopupSlider").slick({
+    autoplay: true,
+    autoplaySpeed: 3000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    dots: true,
+});
+  $(".UniwhatpeopleSay").slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+    responsive: [
+        {
+            breakpoint: 990,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1, 
+            }
+        },
+        {
+            breakpoint: 576,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }
+  
+    ]
+});
+    
+  });
+  })(jQuery);
+</script>
+{% elsif template == 'page.unicorn-blast'%}
+<script type="text/javascript">
+(function($){
+$(document).ready(function(){
+  
+  $(".OurCustomerReview").slick({
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    arrows: false,
+    dots: false,
+    responsive: [
+        {
+            breakpoint: 990,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                dots: true
+            }
+        },
+
+        {
+            breakpoint: 767,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                dots: true
+            }
+        }
+  
+    ]
+});
+    
+  });
+  })(jQuery);
+</script>
+{% elsif template == 'page.acai-buns'%}
+<script type="text/javascript">
+(function($){
+var cip = $(".beauty__routine__video").hover( hoverVideo, hideVideo );
+
+function hoverVideo(e) {  
+    $('video', this).get(0).play(); 
+}
+
+function hideVideo(e) {
+    $('video', this).get(0).pause(); 
+}
+  })(jQuery);
+</script>
+{% elsif template == 'customers/account.edit-profile'%}
+<script type="text/javascript">
+(function($){
+$(document).ready(function(){
+  errornotice = $("#error");
+  successnotice = $("#success");
+  emptyerror = "Please fill out this field.";
+  emailerror = "Please enter a valid e-mail.";
+  
+  $("form#customer_edit_profile").submit(function(){
+  required = ["customer_first_name","customer_last_name"];
+  email = $("#customer_email");
+    for (i=0;i<required.length;i++) {
+      var input = $('#'+required[i]); 
+      if ((input.val() == "") || (input.val() == emptyerror)) {
+        input.addClass("needsfilled");
+        input.val(emptyerror);
+        errornotice.fadeIn(750);
+      } else {
+        input.removeClass("needsfilled");
+      }
+    }
+    var newpassword = $('#customer_password').val();
+        var conformpassword = $('#customer_confirm_password').val();
+    if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(email.val())) {email.addClass("needsfilled");email.val(emailerror);}
+    if ($(":input").hasClass("needsfilled")) { 
+    return false;
+        }else if(newpassword!=conformpassword){
+          $('#customer_password').addClass("needsfilled");
+           $('#customer_confirm_password').addClass("needsfilled");
+          return false;
+           
+        }else { 
+     
+           var $form = $('#customer_edit_profile');
+          var formData = new FormData($($form.get(0))[0]);
+          $(document).ajaxStart(function(){
+  $('#update_profile').attr("disabled", "disabled");
+  }).ajaxStop(function(){
+  $('#update_profile').removeAttr("disabled");
+  }); 
+  $.ajax({
+        url: "https://mytrulydeals.com/trulybeauty/index.php",
+        type: 'POST',
+        data: formData,
+        async: true,
+        success: function (data) {
+      $form.find('#update_profile').prop('disabled', false);  
+        
+          if(data=='Sucess'){
+            alert('Profile Update Sucessfully.');
+          }else{
+            alert(data);
+          }
+      
+        },
+    timeout: 5000000, // sets timeout to 5 seconds
+        contentType: false,
+        processData: false
+    });
+     return false;
+    }
+  });
+  });
+  $(":input").focus(function(){if ($(this).hasClass("needsfilled") ) {$(this).val("");$(this).removeClass("needsfilled");}});
+  })(jQuery);
+</script>
+{% elsif template == 'page.mini-holiday-kit'%}
+<script type="text/javascript">
+(function($){
+$(document).ready(function(){
+  $(".boxVideo__btn").click(function () {
+        var video = $(this).parents('.boxVideo').find(".boxVideo__video").get(0);
+        $(this).toggleClass("active");
+        if (video.paused === true) {
+            video.play();
+        } else {
+            video.pause();
+        }
+
+    });
+   $('.trulySlidemain').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    fade: false,
+    infinite: false,
+    asNavFor: '.trulySlideNav'
+});
+                            
+$('.trulySlideNav').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    dots: false,
+    focusOnSelect: true,
+    infinite: false,
+    asNavFor: '.trulySlidemain',
+    arrows: true,
+    prevArrow: $(".trulySlideNav__btn.trulySlideNav__btnLeft"),
+    nextArrow: $(".trulySlideNav__btn.trulySlideNav__btnRight"),
+});
+   $('.trulySlidemain-2').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    fade: false,
+    infinite: false,
+    asNavFor: '.trulySlideNav-2'
+});
+                            
+$('.trulySlideNav-2').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    dots: false,
+    focusOnSelect: true,
+    infinite: false,
+    asNavFor: '.trulySlidemain-2',
+    arrows: true,
+    prevArrow: $(".trulySlideNav-2__btn.trulySlideNav__btnLeft"),
+    nextArrow: $(".trulySlideNav-2__btn.trulySlideNav__btnRight"),
+});
+  $(".UniwhatpeopleSay").slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+    responsive: [
+        {
+            breakpoint: 990,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1, 
+            }
+        },
+        {
+            breakpoint: 576,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }
+  
+    ]
+});
+   if ($(window).width() <= 751) {
+   $(".holidaylimited").slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+    responsive: [
+        {
+            breakpoint: 990,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1, 
+            }
+        },
+        {
+            breakpoint: 576,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }
+  
+    ]
+});
+   }
+  
+  $('.autoplayslider').slick({
+ slidesToShow: 6,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 0,
+  speed: 6000,
+  pauseOnHover: false,
+  cssEase: 'linear',
+  arrows: false,
+  dots: false,
+    responsive: [
+        {
+            breakpoint: 751,
+            settings: {
+                slidesToShow: 4,
+                slidesToScroll: 1, 
+            }
+        },
+        {
+            breakpoint: 576,
+            settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1
+            }
+        }
+  
+    ]
+  
+});
+  
+  });
+  function run_animate() {
+    var animation_items = $(".animate");
+
+    var ml2 = 0;
+    setInterval(function() {
+      if (ml2 <= 0 - $(".animate2 .animate-wrapper").width() / 2 - 16) {
+        ml2 = 0;
+      }
+
+      $(".animate2 .animate-wrapper").css("margin-left", ml2);
+      ml2 -= 0.5;
+    }, 20);
+       
+  }
+  
+  $(window).on("load", function() {
+    run_animate();
+  });
+  })(jQuery);
+</script>
+{% elsif template == 'page.postscript-TRULY-subscribe'%}
+<script type="text/javascript">
+(function($){
+$(document).ready(function(){
+  
+   $("#ps__phone-subscribe").keypress(function (e) {
+    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+      return false;
+    }
+    var curchr = this.value.length;
+    var curval = $(this).val();
+    if (curchr == 3 && curval.indexOf("(") <= -1) {
+      $(this).val("(" + curval + ")" + "-");
+    } else if (curchr == 4 && curval.indexOf("(") > -1) {
+      $(this).val(curval + ")-");
+    } else if (curchr == 5 && curval.indexOf(")") > -1) {
+      $(this).val(curval + "-");
+    } else if (curchr == 9) {
+      $(this).val(curval + "-");
+      $(this).attr('maxlength', '15');
+    }
+  });
+//   $('#ps__phone-subscribe').keypress(function(key) {if(key.charCode != 0){if(key.charCode < 48 || key.charCode > 57) {return false;}} });
+// $(document).on("keyup","#ps__phone-subscribe",function(event){ 
+//     var string = $(this).val();
+//     var curval = string.replace(/[^0-9\-]/g, '');
+//     var curchr = this.value.length;
+//     $("input[name='phone']").val(string);
+//     if (curchr == 3) {
+//       $("input[name='phone']").val( string  + "-");
+//     } else if (curchr == 7) {
+//       $("input[name='phone']").val(string + "-");
+//     }
+//   });  
+});
+  })(jQuery);
+</script>
+{% elsif template == 'page.tiktok-challenege'%}
+<script type="text/javascript">
+(function($){
+$(document).ready(function(){
+  $(".playpauseBtn").click(function () {
+                var video = $(this).parents('.phoneVideoHolder').find(".bannerVideo").get(0);
+                $(this).toggleClass("active");
+                if (video.paused === true) {
+                    video.play();
+                } else {
+                    video.pause();
+                }
+
+            });
+
+});
+  })(jQuery);
+</script>
+{% elsif template == 'page.cococloud'%}
+<script type="text/javascript">
+  function moveDivisor() {
+    if(slider.value > 2 && slider.value < 98){
+        handle.style.left = slider.value+"%";
+        divisor.style.width = slider.value+"%";
+    }
+}
+
+window.onload = function() {
+	moveDivisor();
+};
+(function($){
+$(document).ready(function(){
+    $('.trulySlidemain-2').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    fade: false,
+    infinite: false,
+    asNavFor: '.trulySlideNav-2'
+});
+    
+   $('.trulySlideNav-2').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    dots: false,
+    focusOnSelect: true,
+    infinite: false,
+    asNavFor: '.trulySlidemain-2',
+    arrows: true,
+    prevArrow: $(".trulySlideNav-2__btn.trulySlideNav__btnLeft"),
+    nextArrow: $(".trulySlideNav-2__btn.trulySlideNav__btnRight"),
+});
+  $('.trulySlidemain-3').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    fade: false,
+    infinite: false,
+    asNavFor: '.trulySlideNav-3'
+});
+   var unslickSlideTab = {
+            slidesToShow: 1.5,
+            dots: false,
+            arrows: true,
+            infinite: false,
+
+            prevArrow: $(".onhalfSliderRight__btn.onhalfSliderRight__btnLeft"),
+            nextArrow: $(".onhalfSliderRight__btn.onhalfSliderRight__btnRight"),
+  responsive: [{
+        breakpoint: 481,
+        settings: {
+            slidesToShow: 1,
+        }
+    }]
+
+        }
+  $(".unslickSlider").slick(unslickSlideTab);
+
+      
+            $(document).on('click','.unslickSlideTab li',function() {
+                var tab_id = $(this).attr('data-tab');
+                $("#" + tab_id).find('.unslickSlider').slick("unslick");
+                $("#" + tab_id).find('.unslickSlider').slick(unslickSlideTab);
+            });
+  
+  
+   var unslickSlideTab1 = {
+            slidesToShow: 1.5,
+            dots: false,
+            arrows: true,
+            infinite: false,
+
+            prevArrow: $(".onhalfSliderRight__btn.onhalfSliderRight__btnLeft"),
+            nextArrow: $(".onhalfSliderRight__btn.onhalfSliderRight__btnRight"),
+  responsive: [{
+        breakpoint: 481,
+        settings: {
+            slidesToShow: 1,
+        }
+    }]
+
+        }
+  $(".unslickSlider1").slick(unslickSlideTab1);
+
+      
+            $(document).on('click','.unslickSlideTab1 li',function() {
+                var tab_id = $(this).attr('data-tab');
+                $("#" + tab_id).find('.unslickSlider1').slick("unslick1");
+                $("#" + tab_id).find('.unslickSlider1').slick(unslickSlideTab1);
+            });
+    $(".popupSlider").slick({
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+    responsive: [
+
+        {
+            breakpoint: 750,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }
+  
+    ]
+});
+    $(".UniwhatpeopleSay").slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+    responsive: [
+        {
+            breakpoint: 990,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1, 
+            }
+        },
+        {
+            breakpoint: 576,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }
+  
+    ]
+    
+});
+  $(".Featured-Slinder").slick({
+        autoplay: true,
+        autoplaySpeed: 3000,
+        slidesToShow: 5,
+        slidesToScroll: 3,
+        arrows: false,
+        dots: false,
+
+        responsive: [
+        { breakpoint: 990, settings: { slidesToShow: 3, dots: true, } },
+        { breakpoint: 576, settings: { slidesToShow: 2, dots: true, slidesToScroll: 2,} },
+    ],
+
+    });
+          // Before After Compare Slider
+  var divisor = document.getElementById("divisor"),
+    handle = document.getElementById("handle"),
+    slider = document.getElementById("slider");
+          
+           if ($(window).width() <= 751) {
+    // accordian
+            $(document).on("click", ".mobOnlyAccordian .mobOnlyAccordian__toggle", (function () {
+            $(this).parent().siblings().removeClass("active"),
+                $(this).parent().siblings().find(".mobOnlyAccordian__cntnt").slideUp(),
+                $(this).parent().toggleClass("active"),
+                // $(this).next(".truly_product_dropdown").toggleClass("open"), 
+                $(this).next(".mobOnlyAccordian__cntnt").slideToggle(200)
+            }));
+
+  } 
+          
+            $(".stepSlider").slick({
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        arrows: true,
+        dots: false,
+        responsive: [
+    
+            {
+                breakpoint: 751,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: true,
+                }
+            }
+      
+        ]
+    });
+    
+  });
+          
+
+
+
+  })(jQuery);
+</script>
+
+{% elsif template == 'page.for-your-man' or template == 'page.mans-product-line' %}
+<script type="text/javascript">
+(function($){
+$(document).ready(function(){
+$(".boxVideo__btn").click(function () {
+        var video = $(this).parents('.boxVideo').find(".boxVideo__video").get(0);
+        $(this).toggleClass("active");
+        if (video.paused === true) {
+            video.play();
+        } else {
+            video.pause();
+        }
+
+    });
+   $('.trulySlidemain').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    fade: false,
+    infinite: false,
+    asNavFor: '.trulySlideNav'
+});
+                            
+$('.trulySlideNav').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    dots: false,
+    focusOnSelect: true,
+    infinite: false,
+    asNavFor: '.trulySlidemain',
+    arrows: true,
+    prevArrow: $(".trulySlideNav__btn.trulySlideNav__btnLeft"),
+    nextArrow: $(".trulySlideNav__btn.trulySlideNav__btnRight"),
+});
+   $('.trulySlidemain-2').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    fade: false,
+    infinite: false,
+    asNavFor: '.trulySlideNav-2'
+});
+                            
+$('.trulySlideNav-2').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    dots: false,
+    focusOnSelect: true,
+    infinite: false,
+    asNavFor: '.trulySlidemain-2',
+    arrows: true,
+    prevArrow: $(".trulySlideNav-2__btn.trulySlideNav__btnLeft"),
+    nextArrow: $(".trulySlideNav-2__btn.trulySlideNav__btnRight"),
+});
+  $('.trulySlidemain-3').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    fade: false,
+    infinite: false,
+    asNavFor: '.trulySlideNav-3'
+});
+                            
+$('.trulySlideNav-3').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    dots: false,
+    focusOnSelect: true,
+    infinite: false,
+    asNavFor: '.trulySlidemain-3',
+    arrows: true,
+    prevArrow: $(".trulySlideNav-3__btn.trulySlideNav__btnLeft"),
+    nextArrow: $(".trulySlideNav-3__btn.trulySlideNav__btnRight"),
+});
+  $(".UniwhatpeopleSay").slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+    responsive: [
+        {
+            breakpoint: 990,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1, 
+            }
+        },
+        {
+            breakpoint: 576,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }
+  
+    ]
+});
+   
+
+});
+  })(jQuery);
+</script>
+
+{% elsif template == 'blog.tiktokvideos'%}
+<script type="text/javascript">
+(function($){
+$(document).ready(function(){
+  $(document).on('click',".boxVideo__btn",function () {
+                var video = $(this).parents('.tiktokChallangeVBox').find("video").get(0);
+     			
+                video.addEventListener('ended', myHandler, false);
+                $(this).toggleClass("active");
+                if (video.paused === true) {
+                    video.play();
+                    $(this).parents('.tiktokChallangeVBox').addClass("active");
+                } else {
+                    video.pause();
+                    $(this).parents('.tiktokChallangeVBox').removeClass("active");
+                }
+    
+                var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+                if (isSafari){
+                              video.addEventListener('ended',function(){
+                              setTimeout(function(){ video.load();}, 1000);
+                              $(this).parents(".tiktokChallangeVBox").find(".boxVideo__btn").removeClass("active");
+                              $(this).parents('.tiktokChallangeVBox').removeClass("active");
+                          });
+                }
+
+                function myHandler(e) {
+                    $(this).parents(".tiktokChallangeVBox").find(".boxVideo__btn").removeClass("active");
+                    $(this).parents('.tiktokChallangeVBox').removeClass("active");
+                }
+            });
+  $(document).on("click", ".tiktokreadBtn",function () {
+            $(this).parent().siblings().removeClass("d-none");
+            $(this).parent().addClass("d-none");
+        });
+  $(document).on("click",".indireviews",function () {
+    $('.reviewresponse').html('<div class="smileyloader textCenter p-0 mt-10"><img src="https://cdn.shopify.com/s/files/1/0053/4462/4675/files/smile.png?v=1632987124" class="smileyloader__img" alt="" width="50" height="50"></div>');
+             var proid = $(this).attr('data-proid'); 
+          $.ajax({
+        url: "https://stamped.io/api/widget/reviews?take&storeUrl=www.trulybeauty.com&minRating=4&apiKey=pubkey-y0bQR825X6K52BT67V84qf3OGso3o0&productId="+proid+"&sortReviews=photos",
+        type: 'GET',
+        dataType: 'json',
+        success: function (reviewsresponse) { 
+          reviewproduct='';
+          jQuery.each( reviewsresponse.data, function( i, val ) {
+            reviewproduct +='<div class="py-20 mb-10 Product__ReviewBox border0"><div class="gridRow">';
+                            if(typeof val.reviewUserPhotos !== "undefined" && val.reviewUserPhotos !== null && val.reviewUserPhotos !== ''){
+                            var firstimg = val.reviewUserPhotos.split(',');
+                                reviewproduct +='<div class="grid-12 grid-sm-3 grid-md-3 grid-lg-2"><div class="textCenter Product__ReviewImg"><img src="https://cdn.stamped.io/tr:h-180,/uploads/photos/'+firstimg[0]+'"class="full_img"></div></div>';
+                                }
+                                reviewproduct +='<div class="grid"><div class="ProductReview__cntnt"><div class="d-flex justifyBetween ProductReview__starDate"><span class="stamped-starrating stamped-badge-starrating" aria-hidden="true">';
+                                if(val.reviewRating==5){
+                                reviewproduct +='<i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i>';
+                                }
+                                if(val.reviewRating==4){
+                                reviewproduct +='<i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star-o" aria-hidden="true"></i>';
+                                }
+                                if(val.reviewRating==3){
+                                reviewproduct +='<i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star-o" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star-o" aria-hidden="true"></i>';
+                                }
+                                if(val.reviewRating==2){
+                                reviewproduct +='<i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star-o" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star-o" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star-o" aria-hidden="true"></i>';
+                                }
+                                if(val.reviewRating==1){
+                                reviewproduct +='<i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star-o" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star-o" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star-o" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star-o" aria-hidden="true"></i>';
+                                }
+                                reviewproduct +='</span><p>'+val.reviewDate+'</p></div> <div class="Review__contentHolder"><h5 class="textUppercase">'+val.reviewTitle+'</h5><p>'+val.reviewMessage+'</p><h5 class="m-0 py-15 BuyerVerified">'+val.author+'<span><img src="https://cdn.shopify.com/s/files/1/0053/4462/4675/files/verified.png?v=1632733611">Verified Buyer</span></h5></div><div class="d-flex justifyBetween Review__recomendHelp"><div class="Review__recomended"><p><img src="https://cdn.shopify.com/s/files/1/0053/4462/4675/files/recommend.png?v=1632733611">Yes,<span>I recommend this product</span></p></div><div class="Review__helpful"><p>Was this review helpful?<span><img src="https://cdn.shopify.com/s/files/1/0053/4462/4675/files/thumsup.png?v=1632733611"></span>'+val.reviewVotesUp+'<span><img src="https://cdn.shopify.com/s/files/1/0053/4462/4675/files/thumdown.png?v=1632733611"></span>'+val.reviewVotesDown+'</p></div></div></div></div></div></div>';
+          });
+          $('.reviewresponse').html(reviewproduct);
+          //$('.totlreview').html(reviewsresponse.total);
+          //$('.rating').html(reviewsresponse.rating);      
+           },
+    timeout: 5000000, // sets timeout to 5 seconds
+       
+      });
+        });
+  document.addEventListener('play', function(e){
+        var videos = document.getElementsByTagName('video');
+        for(var i = 0, len = videos.length; i < len;i++){
+            if(videos[i] != e.target){
+                videos[i].pause();
+                $(videos[i]).parents('.tiktokChallangeVBox').removeClass("active");
+            } 
+        }
+        }, true); 
+});
+  })(jQuery);
+</script>
+{% elsif template == 'page.hotter-in-person'%}
+<script type="text/javascript">
+(function($){
+$(document).ready(function(){
+      $(".boxVideo__btn").click(function () {
+        var video = $(this).parents('.boxVideo').find(".boxVideo__video").get(0);
+        $(this).toggleClass("active");
+        if (video.paused === true) {
+            video.play();
+        } else {
+            video.pause();
+        }
+    });
+
+// individualSlider
+$(".individualSlider").slick({
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+    responsive: [
+        {
+            breakpoint: 1100,
+            settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1, 
+            }
+        },
+        {
+            breakpoint: 600,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1
+            }
+        },
+        {
+            breakpoint: 480,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }
+  
+    ]
+});
+  //  Single Cart product slider
+  $(".ProductSlider__SingleCart").slick({
+    autoplay: false,
+    autoplaySpeed: 3000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+});
+  
+    //Testimonial slider
+$(".UniwhatpeopleSay").slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+    responsive: [
+        {
+            breakpoint: 990,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1, 
+            }
+        },
+        {
+            breakpoint: 576,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }
+  
+    ]
+});
+  //Product half Slider Left
+$('.Product__halfSliderLeft').slick({
+    slidesToShow: 1.5,
+    dots: false,
+    arrows: true,
+    prevArrow: $(".Product__halfSliderLeft__btn.onhalfSliderLeft__btnLeft"),
+    nextArrow: $(".Product__halfSliderLeft__btn.onhalfSliderLeft__btnRight"),
+});
+  
+  
+  
+  
+  });
+  })(jQuery);
+</script>
+{% elsif template == 'page.reviews'%}
+<script type="text/javascript">
+(function($){
+  var ajax_rev=ajax_pro='';
+  var productimage1=productimage2=variationid=productprice='';
+  function bestsellersreviews(){
+  $.ajax({
+    url: "https://mytrulydeals.com/trulybeauty/reviews/index.php",
+        type: 'GET',
+        dataType: 'json',
+        success: function (reviewresponse) {
+          //console.log(reviewresponse.products);
+          reviewresponse.reviews.forEach(function(review, index) {
+          mrgrimge ='';
+            if(review.reviewUserPhotos!=''){
+            review.reviewUserPhotos.split(",").forEach(function(rimage,index){
+              mrgrimge +='<img src="https://cdn.stamped.io/tr:h-180,/uploads/photos/'+rimage+'"/>';
+              });
+            }
+            ajax_rev +='<div class="pt-30 pb-20 Product__ReviewBox filterid_'+review.reviewproductId+'"><div class="gridRow"><div class="grid-12 grid-sm-5 grid-md-4 grid-lg-3"><div class="textCenter Product__ReviewImg"><div class="gridRow gridRow-extraSmall"><div class="grid-6"><img src="'+review.reviewproductfirstimage+'" class="full_img"></div><div class="grid-6"><img src="'+review.reviewproductsecondimage+'" class="full_img"></div></div><h5 class="textUppercase mb-0 mt-10"><a href="'+review.reviewproductURL+'"><i>'+review.reviewproductName+'</i></a></h5><div class="Review__readMoreBtn my-10"><a href="'+review.reviewproductURL+'">READ MORE</a></div><form method="post" action="/cart/add" id="product_form_'+review.reviewproductId+'" accept-charset="UTF-8" enctype="multipart/form-data" data-productid="'+review.reviewproductId+'" novalidate="novalidate" data-product-form=""><input type="hidden" name="form_type" value="product"><input type="hidden" name="utf8" value="✓"><input type="hidden" name="id" value="'+review.reviewvariationId+'"><button type="submit" name="add" id="AddToCart-'+review.reviewvariationId+'" class="commonBtn commonBtn-round showHeart add-to-cart-ajax add_to_cart">Add to bag <span class="btn_price"><span class="price--on-sale"><span class="money">$'+review.reviewproductprice+'</span></span></span></button></form></div></div><div class="grid-12 grid-sm-7 grid-md-8 grid-lg-9"><div class="ProductReview__cntnt"><div class="d-flex justifyBetween ProductReview__starDate"><span class="stamped-starrating stamped-badge-starrating" aria-hidden="true"><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i></span><p>'+review.reviewDate+'</p></div><div class="Review__contentHolder"><h5 class="textUppercase">'+review.reviewTitle+'</h5><p>'+review.reviewMessage+'</p><h5 class="m-0 py-15 BuyerVerified">'+review.reviewauthor+'<span><img src="https://cdn.shopify.com/s/files/1/0053/4462/4675/files/verified.png?v=1632733611">Verified Buyer</span></h5></div><div class="d-flex justifyBetween Review__recomendHelp"> <div class="Review__recomended"><p><img src="https://cdn.shopify.com/s/files/1/0053/4462/4675/files/recommend.png?v=1632733611">Yes,<span>I recommend this product</span></p></div><div class="Review__helpful"><p>Was this review helpful?<span><img src="https://cdn.shopify.com/s/files/1/0053/4462/4675/files/thumsup.png?v=1632733611"></span>'+review.reviewVotesUp+'<span><img src="https://cdn.shopify.com/s/files/1/0053/4462/4675/files/thumdown.png?v=1632733611"></span>'+review.reviewVotesDown+'</p></div></div><div class="d-flex-wrap ReviewProduct__images"> '+mrgrimge+'</div></div></div></div></div>';
+          });
+          reviewresponse.products.forEach(function(product, index) {
+            ajax_pro +='<li><button class="review__FilterBtn" id="'+product.productid+'">'+product.productname+'</button></li>';
+          });
+          $('#bestsellerreview').html(ajax_rev);
+          $('.productsname').html(ajax_pro);
+          size_li = $(".productsname li").size(); 
+           x=5;
+          $('.productsname li:lt('+x+')').show();
+          $('.seemoreover').removeClass('hide');
+         },
+    timeout: 5000000, // sets timeout to 5 seconds
+       
+      });
+  }
+  bestsellersreviews();
+   
+    
+  
+$(document).ready(function(){
+  $.ajax({
+        url: "https://stamped.io/api/widget/reviews?storeUrl=www.trulybeauty.com&minRating=1&apiKey=pubkey-y0bQR825X6K52BT67V84qf3OGso3o0",
+        type: 'GET',
+        dataType: 'json',
+        success: function (reviewsresponse) { //alert(data); 
+         // console.log(reviewsresponse.data);  
+         // var objJSON = JSON.parse(data);   
+          //console.log(objJSON.total);
+          $('.totalreviews').html(reviewsresponse.total);
+             //console.log(data.total);              
+           },
+    timeout: 5000000, // sets timeout to 5 seconds
+       
+      });
+    $('#seemore').click(function () {
+        x= (x+5 <= size_li) ? x+5 : size_li;
+        $('.productsname li:lt('+x+')').show();
+      size_lis = $(".productsname li:visible").size();
+     
+      if(size_li==size_lis){$('#seemore').addClass('hide');}
+    });
+  $(document).on('click',".productsname button",function(){
+   // alert($(this).attr('id'));
+      var filterid = $(this).attr('id');
+      
+      $(".reviewPageFilter__btn").removeClass("active");
+      $(this).addClass('active');
+      var ajax_revsg='';
+      $('#bestsellerreview').html('<div class="smileyloader textCenter p-0 mt-10"><img src="https://cdn.shopify.com/s/files/1/0053/4462/4675/files/smile.png?v=1632987124" class="smileyloader__img" alt="" width="50" height="50"></div>');
+      $.ajax({
+        url: "https://mytrulydeals.com/trulybeauty/reviews/singleproductreviews.php?productid="+filterid+"",
+        type: 'GET',
+        dataType: 'json',
+        success: function (reviewresponse) {
+          reviewresponse.reviews.forEach(function(review, index) {
+            mrgrimge='';
+            if(review.reviewUserPhotos!=''){
+            review.reviewUserPhotos.split(",").forEach(function(rimage,index){
+              mrgrimge +='<img src="https://cdn.stamped.io/tr:h-180,/uploads/photos/'+rimage+'"/>';
+              });
+            }
+            ajax_revsg +='<div class="pt-30 pb-20 Product__ReviewBox filterid_'+review.reviewproductId+'"><div class="gridRow"><div class="grid-12 grid-sm-5 grid-md-4 grid-lg-3"><div class="textCenter Product__ReviewImg"><div class="gridRow gridRow-extraSmall"><div class="grid-6"><img src="'+review.reviewproductfirstimage+'" class="full_img"></div><div class="grid-6"><img src="'+review.reviewproductsecondimage+'" class="full_img"></div></div><h5 class="textUppercase mb-0 mt-10"><a href="'+review.reviewproductURL+'"><i>'+review.reviewproductName+'</i></a></h5><div class="Review__readMoreBtn my-10"><a href="'+review.reviewproductURL+'">READ MORE</a></div><form method="post" action="/cart/add" id="product_form_'+review.reviewproductId+'" accept-charset="UTF-8" enctype="multipart/form-data" data-productid="'+review.reviewproductId+'" novalidate="novalidate" data-product-form=""><input type="hidden" name="form_type" value="product"><input type="hidden" name="utf8" value="✓"><input type="hidden" name="id" value="'+review.reviewvariationId+'"><button type="submit" name="add" id="AddToCart-'+review.reviewvariationId+'" class="commonBtn commonBtn-round showHeart add-to-cart-ajax add_to_cart">Add to bag <span class="btn_price"><span class="price--on-sale"><span class="money">$'+review.reviewproductprice+'</span></span></span></button></form></div></div><div class="grid-12 grid-sm-7 grid-md-8 grid-lg-9"><div class="ProductReview__cntnt"><div class="d-flex justifyBetween ProductReview__starDate"><span class="stamped-starrating stamped-badge-starrating" aria-hidden="true"><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i></span><p>'+review.reviewDate+'</p></div><div class="Review__contentHolder"><h5 class="textUppercase">'+review.reviewTitle+'</h5><p>'+review.reviewMessage+'</p><h5 class="m-0 py-15 BuyerVerified">'+review.reviewauthor+'<span><img src="https://cdn.shopify.com/s/files/1/0053/4462/4675/files/verified.png?v=1632733611">Verified Buyer</span></h5></div><div class="d-flex justifyBetween Review__recomendHelp"> <div class="Review__recomended"><p><img src="https://cdn.shopify.com/s/files/1/0053/4462/4675/files/recommend.png?v=1632733611">Yes,<span>I recommend this product</span></p></div><div class="Review__helpful"><p>Was this review helpful?<span><img src="https://cdn.shopify.com/s/files/1/0053/4462/4675/files/thumsup.png?v=1632733611"></span>'+review.reviewVotesUp+'<span><img src="https://cdn.shopify.com/s/files/1/0053/4462/4675/files/thumdown.png?v=1632733611"></span>'+review.reviewVotesDown+'</p></div></div><div class="d-flex-wrap ReviewProduct__images"> '+mrgrimge+'</div></div></div></div></div>';
+          });
+           $('#bestsellerreview').html('');
+           $('#bestsellerreview').html(ajax_revsg); 
+          
+          $('.review__ClearFilterBtn').removeClass('hide');
+                
+          },
+    timeout: 5000000, // sets timeout to 5 seconds
+       
+      });
+      
+    });
+    $(document).on('click',".review__ClearFilterBtn",function(){
+      location.reload();
+    });
+  $(document).on('click',".childproducttype",function(){
+      //alert($(this).text());
+      responseid = $(this).parent().parent().parent().attr('data-id'); //alert(responseid);
+      $('.childproducttype').removeClass('active');
+      $(this).addClass('active');
+      var producttype = $(this).text();
+      $('#'+responseid).html('<div class="smileyloader textCenter p-0 mt-10"><img src="https://cdn.shopify.com/s/files/1/0053/4462/4675/files/smile.png?v=1632987124" class="smileyloader__img" alt="" width="50" height="50"></div>');
+      ajax_crevsg ='';
+      $.ajax({
+        url: "https://mytrulydeals.com/trulybeauty/reviews/singleproducttypereviews.php?producttype="+encodeURIComponent(producttype)+"",
+        type: 'GET',
+        dataType: 'json',
+        success: function (creviewresponse) { //alert();
+          creviewresponse.reviews.forEach(function(review, index) {
+            mrgrimge='';
+            if(review.reviewUserPhotos!=''){
+            review.reviewUserPhotos.split(",").forEach(function(rimage,index){
+              mrgrimge +='<img src="https://cdn.stamped.io/tr:h-180,/uploads/photos/'+rimage+'"/>';
+              });
+            }
+            ajax_crevsg +='<div class="pt-30 pb-20 Product__ReviewBox filterid_'+review.reviewproductId+'"><div class="gridRow"><div class="grid-12 grid-sm-5 grid-md-4 grid-lg-3"><div class="textCenter Product__ReviewImg"><div class="gridRow gridRow-extraSmall"><div class="grid-6"><img src="'+review.reviewproductfirstimage+'" class="full_img"></div>';
+            if(review.reviewproductsecondimage!=''){
+            ajax_crevsg +='<div class="grid-6"><img src="'+review.reviewproductsecondimage+'" class="full_img"></div>';
+            }
+            ajax_crevsg +='</div><h5 class="textUppercase mb-0 mt-10"><a href="'+review.reviewproductURL+'"><i>'+review.reviewproductName+'</i></a></h5><div class="Review__readMoreBtn my-10"><a href="'+review.reviewproductURL+'">READ MORE</a></div><form method="post" action="/cart/add" id="product_form_'+review.reviewproductId+'" accept-charset="UTF-8" enctype="multipart/form-data" data-productid="'+review.reviewproductId+'" novalidate="novalidate" data-product-form=""><input type="hidden" name="form_type" value="product"><input type="hidden" name="utf8" value="✓"><input type="hidden" name="id" value="'+review.reviewvariationId+'"><button type="submit" name="add" id="AddToCart-'+review.reviewvariationId+'" class="commonBtn commonBtn-round showHeart add-to-cart-ajax add_to_cart">Add to bag <span class="btn_price"><span class="price--on-sale"><span class="money">$'+review.reviewproductprice+'</span></span></span></button></form></div></div><div class="grid-12 grid-sm-7 grid-md-8 grid-lg-9"><div class="ProductReview__cntnt"><div class="d-flex justifyBetween ProductReview__starDate"><span class="stamped-starrating stamped-badge-starrating" aria-hidden="true"><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i><i class="stamped-fa stamped-fa-star" aria-hidden="true"></i></span><p>'+review.reviewDate+'</p></div><div class="Review__contentHolder"><h5 class="textUppercase">'+review.reviewTitle+'</h5><p>'+review.reviewMessage+'</p><h5 class="m-0 py-15 BuyerVerified">'+review.reviewauthor+'<span><img src="https://cdn.shopify.com/s/files/1/0053/4462/4675/files/verified.png?v=1632733611">Verified Buyer</span></h5></div><div class="d-flex justifyBetween Review__recomendHelp"> <div class="Review__recomended"><p><img src="https://cdn.shopify.com/s/files/1/0053/4462/4675/files/recommend.png?v=1632733611">Yes,<span>I recommend this product</span></p></div><div class="Review__helpful"><p>Was this review helpful?<span><img src="https://cdn.shopify.com/s/files/1/0053/4462/4675/files/thumsup.png?v=1632733611"></span>'+review.reviewVotesUp+'<span><img src="https://cdn.shopify.com/s/files/1/0053/4462/4675/files/thumdown.png?v=1632733611"></span>'+review.reviewVotesDown+'</p></div></div><div class="d-flex-wrap ReviewProduct__images"> '+mrgrimge+'</div></div></div></div></div>';
+          });
+          //alert(ajax_crevsg);
+           $('#'+responseid).html('');
+           $('#'+responseid).html(ajax_crevsg); 
+          },
+       
+    timeout: 5000000, // sets timeout to 5 seconds
+       
+      });
+    });
+   $(document).on('click','.skrtparent',function(){
+    $('.skrtparent').removeClass('active');
+      $(this).addClass('active');
+      child= $(this).attr('data-child');
+     // alert(child);
+      $('.skrtchild').addClass('hide');
+      $('.skrtchild.'+child).removeClass('hide').find('button.fstchd').trigger("click");
+      
+    });
+    $(document).on('click','.sktpparent',function(){
+    $('.sktpparent').removeClass('active');
+      $(this).addClass('active');
+      child= $(this).attr('data-child');
+     // alert(child);
+      $('.sktpchild').addClass('hide');
+      $('.sktpchild.'+child).removeClass('hide').find('button.fstchd').trigger("click");
+      
+    });
+  $(document).on('click','.skprparent',function(){
+    $('.skprparent').removeClass('active');
+      $(this).addClass('active');
+      child= $(this).attr('data-child');
+     // alert(child);
+      $('.skprchild').addClass('hide');
+      $('.skprchild.'+child).removeClass('hide').find('button.fstchd').trigger("click");
+      
+    });
+  $('.trulyTab li').click(function(){
+    var tab_id = $(this).attr('data-tab');
+      var tabval = $(this).html().toLowerCase().replace(/ /g,'');//alert(tabval);
+      $('.productsname'+tabval+' li button').removeClass('active');
+      $('.productsname'+tabval+' li:first button').addClass('active');
+    
+    $('ul.trulyTab li').removeClass('current');
+    $('.trulyTab__cntnt').removeClass('current');
+    $(this).addClass('current');
+    $("#"+tab_id).addClass('current');
+      $("#"+tab_id+" .childstep ul").addClass('hide');
+      var tabfstchild = $('.productsname'+tabval+' li:first button').attr('data-child'); //alert(tabfstchild);
+      $('.blemishpatchchilds').removeClass('hide');
+      $('.breastchilds').removeClass('hide');
+      $('.againgchilds').removeClass('hide');
+        $("#"+tab_id).find('button.fstchd:first').addClass('active').trigger("click");
+  });
+  });
+  })(jQuery);
+</script>
+{% elsif template == 'page.anti-cellulite' or template == 'page.anti-cellulite1'%}
+<script type="text/javascript">
+  
+(function($){
+ 
+$(document).ready(function(){
+ //  Single Cart product slider
+  $(".ProductSlider__SingleCart").slick({
+    autoplay: false,
+    autoplaySpeed: 3000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+});
+  // Double  Slide slider
+$(".twoRow__Review").slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+});
+  });
+  })(jQuery);
+</script>
+{% elsif template == 'page.slay-stretch-marks'%}
+<script type="text/javascript">
+(function($){
+  $(document).ready(function(){
+$('.onhalfSliderRight').slick({
+    slidesToShow: 1.5,
+    dots: false,
+    arrows: true,
+    infinite: false,
+    prevArrow: $(".onhalfSliderRight__btn.onhalfSliderRight__btnLeft"),
+    nextArrow: $(".onhalfSliderRight__btn.onhalfSliderRight__btnRight"),
+});
+  
+  $(".productSlider").slick({
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    arrows: true,
+    adaptiveHeight: true,
+    dots: false,
+    responsive: [
+        { breakpoint: 1100, settings: { slidesToShow: 2 } },
+        { breakpoint: 500, settings: { slidesToShow: 1 } },
+    ],
+});
+      });
+  })(jQuery);
+</script>
+
+{% elsif template == 'page.bodne-line'%}
+<script type="text/javascript">
+ (function($){
+    $(document).ready(function(){
+ $(".beforeAfter").slick({
+    autoplay: false,
+    autoplaySpeed: 3000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+    infinite: false
+});
+$('.Product__halfSliderLeft').slick({
+    slidesToShow: 1.5,
+    dots: false,
+    arrows: true,
+    prevArrow: $(".Product__halfSliderLeft__btn.onhalfSliderLeft__btnLeft"),
+    nextArrow: $(".Product__halfSliderLeft__btn.onhalfSliderLeft__btnRight"),
+});
+$(".UniwhatpeopleSay").slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+    responsive: [
+        {
+            breakpoint: 990,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1, 
+            }
+        },
+        {
+            breakpoint: 576,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }
+    ]
+});
+      });
+})(jQuery);
+</script>
+{% elsif template == 'page.bacne'%}
+<script type="text/javascript">
+ (function($){
+   $(document).ready(function(){
+      $('.onhalfSliderRight').slick({
+    slidesToShow: 1.5,
+    dots: false,
+    arrows: true,
+    infinite: false,
+    prevArrow: $(".onhalfSliderRight__btn.onhalfSliderRight__btnLeft"),
+    nextArrow: $(".onhalfSliderRight__btn.onhalfSliderRight__btnRight"),
+});
+     
+         });
+ });
+  (jQuery);
+</script>
+
+
+
+{% elsif template == 'page.vip-box' or  template == 'page.vip-collection2' or template == 'page.vip-luxury-trunk' or template == 'page.vip-luxury-blanket'%}
+<script type="text/javascript">
+  
+(function($){
+    $(document).ready(function () {
+     $(window).on('scroll', function () {
+            if ($(window).scrollTop() >= $('.stickyWrapShow').offset().top-100 ) {
+                $(".sticky-wrap").addClass('sticky-show')
+            } else {
+                $(".sticky-wrap").removeClass('sticky-show')
+            }
+        });
+        
+      
+
+        // Inner Tabs slick slider
+
+        var vipMainSlider = {
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            arrows: true,
+            adaptiveHeight: true,
+            dots: false,
+            infinite: false,
+            responsive: [
+                { breakpoint: 1101, settings: { slidesToShow: 3 } },
+                { breakpoint: 751, settings: { slidesToShow: 2 } },
+                { breakpoint: 371, settings: { slidesToShow: 1 } },
+            ],
+        }
+
+        $(".InnerTabSlider").slick(vipMainSlider);
+$(".benefit_toggle").click(function () {
+                $(this).parent().toggleClass("benefit_show")
+            });
+   
+       
+  $(".UniwhatpeopleSay").slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+    responsive: [
+        {
+            breakpoint: 990,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1, 
+            }
+        },
+        {
+            breakpoint: 576,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }
+  
+    ]
+});
+    $.ajax({
+                url: 'https://mytrulydeals.com/trulybeauty/vipcountdown/index.php',
+                type: 'get',
+                success: function(data){
+                     $('#quantitycontent_header').html(data);
+                    $('#quantitycontent').html(data);
+                   $(".counterreverse").lettering(); 
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    var errorMsg = 'Ajax request failed: ' + xhr.responseText;
+                    $('#quantitycontent').html(errorMsg);
+                  }
+            });
+      
+      
+
+  }); 
+  })(jQuery);
+  !(function (t) {
+    function e(e, n, i, r) {
+        var a = e.text(),
+            c = a.split(n),
+            s = "";
+        c.length &&
+            (t(c).each(function (t, e) {
+                s += '<span class="' + i + (t + 1) + '" aria-hidden="true">' + e + "</span>" + r;
+            }),
+            e.attr("aria-label", a).empty().append(s));
+    }
+    var n = {
+        init: function () {
+            return this.each(function () {
+                e(t(this), "", "char", "");
+            });
+        },
+       
+    };
+    t.fn.lettering = function (e) {
+        return e && n[e] ? n[e].apply(this, [].slice.call(arguments, 1)) : "letters" !== e && e ? (t.error("Method " + e + " does not exist on jQuery.lettering"), this) : n.init.apply(this, [].slice.call(arguments, 0));
+    };
+    
+    
+})(jQuery);
+</script>
+{% elsif template == 'page.truly-raffle' %}
+<script type="text/javascript">
+  
+(function($){
+   
+ 
+    $(document).ready(function () {
+       const phoneInputField = document.querySelector("#phone_number");
+   const phoneInput = window.intlTelInput(phoneInputField, {
+     utilsScript:
+       "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+   });
+  const phoneNumber = phoneInput.getNumber();
+      
+     errornotice = $("#error");
+  successnotice = $("#success");
+  emptyerror = "Please fill out this field.";
+  emailerror = "Please enter a valid e-mail.";
+  
+  $("form#kiayvio_request").submit(function(){
+  required = ["phone_number","instagram_username","name","order_number"];
+  email = $("#email");
+      for (i=0;i<required.length;i++) {
+      var input = $('#'+required[i]); 
+      if ((input.val() == "") || (input.val() == emptyerror)) {
+        input.addClass("needsfilled");
+        input.val(emptyerror);
+        errornotice.fadeIn(750);
+      } else {
+        input.removeClass("needsfilled");
+      }
+    }
+    if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(email.val())) {email.addClass("needsfilled");email.val(emailerror);}
+    if ($('#special_offer').is(':checked')){$('#special_offer_label').css("color","#000");}
+       
+      phonenumber = phoneInput.getNumber();
+      if ($(":input").hasClass("needsfilled")) { 
+    return false;
+        }else if (! $('#special_offer')[0].checked){
+        $('#special_offer_label').css("color","#ff0000");
+          return false;
+        }else if(phonenumber.indexOf('+') == -1){
+           $('#phone_number').addClass("needsfilled");
+          return false;
+    } else { 
+        var $form = $('#kiayvio_request');
+          var formData = new FormData($($form.get(0))[0]);
+          formData.append('phone_number', phonenumber);
+          $(document).ajaxStart(function(){
+  $('#submit_detail').attr("disabled", "disabled");
+  }).ajaxStop(function(){
+  $('#submit_detail').removeAttr("disabled");
+  }); 
+  $.ajax({
+        url: "https://mytrulydeals.com/trulybeauty/klayvio-form.php",
+        type: 'POST',
+        data: formData,
+        async: true,
+        success: function (data) { 
+      $form.find('#submit_detail').prop('disabled', false);  
+      
+          if (data.indexOf('success') > -1) {
+            $('form#kiayvio_request').get(0).reset();
+            $('.infulencer-response').html('<p>Thank you for entering the Truly Beauty Raffle. Good luck!</p>').css("color","#509d24");
+             $('.infulencer-response p').css("color","#509d24");
+          }else if (data.indexOf('orderiderror') > -1) {
+            $('.infulencer-response').html('<p>This order ID does not valid for this promotion.</p>').css("color","#ff0000");
+             $('.infulencer-response p').css("color","#ff0000");
+          }else{
+            $('.infulencer-response').html('<p>Unable to subscribe. Please try again.</p>').css("color","#ff0000");
+            $('.infulencer-response p').css("color","#ff0000");
+          }
+      
+        },
+    timeout: 5000000, // sets timeout to 5 seconds
+        contentType: false,
+        processData: false
+    });
+     return false;
+    }
+  });
+
+  $(":input").focus(function(){if ($(this).hasClass("needsfilled") ) {$(this).val("");$(this).removeClass("needsfilled");}});
+ 
+        
+        });
+  
+  
+  })(jQuery);
+</script>
+{% elsif template == 'page.powerpuff-girls' or template == 'page.the-powerpuff-girls-2' %}
+<script type="text/javascript">
+  
+  (function($){
+      $(document).ready(function () {
+        
+        $(window).on('scroll', function () {
+            if ($(window).scrollTop() >= $('.stickyWrapShow').offset().top-100 ) {
+                $(".sticky-wrap").addClass('sticky-show')
+            } else {
+                $(".sticky-wrap").removeClass('sticky-show')
+            }
+        });
+       var unslickSlideTab = {
+            slidesToShow: 1.5,
+            dots: false,
+            arrows: true,
+            infinite: false,
+
+            prevArrow: $(".onhalfSliderRight__btn.onhalfSliderRight__btnLeft"),
+            nextArrow: $(".onhalfSliderRight__btn.onhalfSliderRight__btnRight"),
+  responsive: [{
+        breakpoint: 481,
+        settings: {
+            slidesToShow: 1,
+        }
+    }]
+
+        }
+
+        $(".unslickSlider").slick(unslickSlideTab);
+
+      
+            $(document).on('click','.unslickSlideTab li',function() {
+                var tab_id = $(this).attr('data-tab');
+                $("#" + tab_id).find('.unslickSlider').slick("unslick");
+                $("#" + tab_id).find('.unslickSlider').slick(unslickSlideTab);
+            });
+        
+        
+          $(".UniwhatpeopleSay").slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+    responsive: [
+        {
+            breakpoint: 990,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1, 
+            }
+        },
+        {
+            breakpoint: 576,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }
+  
+    ]
+    
+});
+      if ($(window).width() <= 751) {
+    // accordian
+            $(document).on("click", ".mobOnlyAccordian .mobOnlyAccordian__toggle", (function () {
+            $(this).parent().siblings().removeClass("active"),
+                $(this).parent().siblings().find(".mobOnlyAccordian__cntnt").slideUp(),
+                $(this).parent().toggleClass("active"),
+                // $(this).next(".truly_product_dropdown").toggleClass("open"), 
+                $(this).next(".mobOnlyAccordian__cntnt").slideToggle(200)
+            }));
+
+  } 
+     
+$(".productSlider_powerpuff").slick({
+  
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    arrows: true,
+    adaptiveHeight: true,
+    dots: false,
+    responsive: [
+        { breakpoint: 1100, settings: { slidesToShow: 2 } },
+        { breakpoint: 500, settings: { slidesToShow: 2 } },
+    ],
+});     
+      $('#ProductSelect_var').on('change', function() {
+        
+      if ($(this).find("option:selected").text() === 'Without Lunchbox'){
+           $('.productSliderNav .slick-list .slick-track .slick-slide:nth-child(2)').click();
+          $('.staticprswth span.price--on-sale').html('<span class="money">$89.99</span><del class="price__sale"> <span class="money">$118.00</span></del>');
+         }
+         else {
+            $('.productSliderNav .slick-list .slick-track .slick-slide:first-child()').click();
+          $('.staticprswth span.price--on-sale').html('<span class="money">$99.99</span><del class="price__sale"> <span class="money">$128.00</span></del>');
+            }
+       
+       });
+     });
+  
+    
+  
+  })(jQuery);
+</script>
+{% elsif template == 'page.valentines-day2022'  or template == 'page.valentines-day2022-1'%}
+<script type="text/javascript">
+   (function($){
+      $(document).ready(function () {
+   $("#valentine1, #valentine2").slick({
+    autoplay: false, 
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: true,
+    infinite: false
+});
+        
+        $('.trulyAccordian__toggle').on('click', function(e) {
+        //$('#collapseFour').resize(); // I do not think, you need this.
+        $(".slick-slider").slick("refresh");
+  });
+
+  
+    $(window).on('scroll', function () {
+            if ($(window).scrollTop() >= $('.productDetail__whySpecial').offset().top-100 ) {
+                $(".sticky-wrap").addClass('sticky-show')
+            } else {
+                $(".sticky-wrap").removeClass('sticky-show')
+            }
+        });
+  
+ $('.gridTabSlider').slick({
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    arrows: true,
+    dots: true,
+    fade: false,
+    infinite: false,
+    responsive: [
+        {
+            breakpoint: 576,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2, 
+            }
+        },
+  
+    ]
+}); 
+      
+     });  
+  })(jQuery);
+</script>
+{% elsif template == 'page.buns-of-glory' %}
+<script type="text/javascript">
+   function moveDivisor() {
+    if(slider.value > 2 && slider.value < 98){
+        handle.style.left = slider.value+"%";
+        divisor.style.width = slider.value+"%";
+    }
+}
+
+window.onload = function() {
+  moveDivisor();
+};
+   (function($){
+      $(document).ready(function () {
+        $(".boxVideo__btn").click(function () {
+        var video = $(this).parents('.boxVideo').find(".boxVideo__video").get(0);
+        $(this).toggleClass("active");
+        if (video.paused === true) {
+            video.play();
+        } else { 
+            video.pause();
+        }
+
+    });
+$("#TestimonialSliderOne, #TestimonialSliderTwo").slick({
+    autoplay: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: true,
+    responsive: [
+                {
+                    breakpoint: 751,
+                    settings: {
+                        arrows: false, 
+                    }
+                }
+            ]
+});
+   // Before After Compare Slider
+var divisor = document.getElementById("divisor"),
+    handle = document.getElementById("handle"),
+    slider = document.getElementById("slider");
+     });  
+  })(jQuery);
+</script>
+{% elsif template == 'index' %}
+<script type="text/javascript">
+  !(function (t) {
+    function e(e, n, i, r) {
+        var a = e.text(),
+            c = a.split(n),
+            s = "";
+        c.length &&
+            (t(c).each(function (t, e) {
+                s += '<span class="' + i + (t + 1) + '" aria-hidden="true">' + e + "</span>" + r;
+            }),
+            e.attr("aria-label", a).empty().append(s));
+    }
+    var n = {
+        init: function () {
+            return this.each(function () {
+                e(t(this), "", "char", "");
+            });
+        },
+       
+    };
+    t.fn.lettering = function (e) {
+        return e && n[e] ? n[e].apply(this, [].slice.call(arguments, 1)) : "letters" !== e && e ? (t.error("Method " + e + " does not exist on jQuery.lettering"), this) : n.init.apply(this, [].slice.call(arguments, 0));
+    };
+    
+    
+})(jQuery);
+   (function($){
+      $(document).ready(function () {
+//Countdown
+        $.ajax({
+                url: 'https://mytrulydeals.com/trulybeauty/vipcountdown/index.php',
+                type: 'get',
+                success: function(data){
+                     $('#quantitycontent_header').html(data);
+                    
+                   $(".counterreverse").lettering(); 
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    var errorMsg = 'Ajax request failed: ' + xhr.responseText;
+                    $('#quantitycontent').html(errorMsg);
+                  }
+            });
+   // TIMER
+
+/*Product Avaliable back counter*/
+// var countDownDate = new Date("feb 06 2022 23:59:59 PST").getTime();
+// // Update the count down every 1 second
+// var x = setInterval(function () {
+//     // Get today's date and time
+//     var now = new Date().getTime();
+//     // Find the distance between now and the count down date
+//     var distance = countDownDate - now;
+//     // Time calculations for days, hours, minutes and seconds
+//     var days = ('0' + Math.floor(distance / (1000 * 60 * 60 * 24))).slice(-2);
+//     var hours = ('0' + Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).slice(-2);
+//     var minutes = ('0' + Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).slice(-2);
+//     var seconds = ('0' + Math.floor((distance % (1000 * 60)) / 1000)).slice(-2);
+//     // Display the result in the element with id="demo"
+//     document.getElementById("productavaliableback").innerHTML = "<span>" + days + "<span>Days</span></span><span>" + hours + "<span>Hours</span></span><span>" + minutes + "<span>Minutes</span></span><span>" + seconds + "<span>Seconds</span></span>";
+//     // If the count down is finished, write some text
+//     if (distance < 0) {
+//         clearInterval(x);
+//         document.getElementById("productavaliableback").innerHTML = "";
+//     }
+// }, 1000);
+/*Product Avaliable back counter*/
+
+     });
+  
+  })(jQuery);
+</script>
+{% elsif template == 'page.coco-cloud-bundle'%}
+<script type="text/javascript">
+ (function($){
+   $(document).ready(function(){
+    
+ $(".goodiesSlider").slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+    adaptiveHeight: true,
+    dots: true,
+    mobileFirst: true,
+    responsive: [
+                    {breakpoint: 989, settings: "unslick"},
+                    {breakpoint: 750, settings: { slidesToShow: 3, slidesToScroll: 1}},
+                ],
+});       
+    
+     $(".UniwhatpeopleSay").slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: false,
+    responsive: [
+        {
+            breakpoint: 990,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1, 
+            }
+        },
+        {
+            breakpoint: 576,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }
+  
+    ]
+});
+         $(".playpauseBtn").click(function () {
+        var video = $(this).parents('.twoboxvideoslider').find(".bannervideoslide").get(0);
+        $(this).toggleClass("active");
+        if (video.paused === true) {
+            video.play();
+        } else {
+            video.pause();
+        }
+
+    });
+     
+$(window).resize(function(){
+    if($(window).width() < 989) {
+        $('.goodiesSlider').slick({
+        });
+    } else {
+        $('.goodiesSlider').slick('unslick');
+    }
+});
+     
+     $("form#pagesubscribeform").submit(function(){
+   email = $("#email_coco-cloud");
+  	if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(email.val())) {
+      email.addClass("needsfilled");email.val('Enter valid email address');}
+    if ($(":input").hasClass("needsfilled")) { 
+		return false;
+    }else {
+      $('button#cococloudsubscribe').css("pointer-events", "none");           
+       var useremail =$("#email_coco-cloud").val();
+      $.ajax({
+        url: "https://mytrulydeals.com/trulybeauty/subscribe.php",
+        type: 'POST',
+        data: {ajaxaction:"subscribelist",subemailaddress:useremail},
+        async: true,
+        success: function (response) { 
+          $("form#pagesubscribeform").get(0).reset()
+			alert('Thanks for subscribe.');
+            $('button#cococloudsubscribe').css("pointer-events", "auto");
+			},
+		timeout: 5000000, // sets timeout to 5 seconds
+	    }); 
+    
+      return false;
+    }
+  
+  });
+     
+    
+     $('.choose_proLink').click(function () {
+
+       var tab_id = $(this).attr('data-show');
+       $(this).siblings().removeClass('current');
+       
+      
+       if(tab_id === 'second_pro_detail'){
+         $('.image_two').fadeIn();
+          $('.image_one').hide();
+       }
+       else
+       {
+         $('.image_one').fadeIn();
+        $('.image_two').hide();
+       }
+       
+       $("#" + tab_id).siblings().removeClass('current');
+       $(this).addClass('current');
+       $("#" + tab_id).addClass('current');
+     
+        
+      
+     
+
+       
+       
+     });
+      
+   
+   });
+ })(jQuery);
+</script>
+
+   
+{% elsif template == 'page.truly-order' %}
+  
+<script type="text/javascript">
+  
+   (function($){
+      $(document).ready(function () {
+           $('.priceBox').hide();
+
+    setTimeout(function(){
+        $('.priceBox').fadeIn('slow');
+    },500);
+ 
+         // checkBox onCheck show/hide 
+        $(document).on('change', '.TrulyCheck', function () {
+            if ($(this).is(':checked')) {
+                $('.suscribeAndSave').addClass('hideArrow');
+                $('.TrulyCheck').prop('checked', true);
+
+            } else {
+                $('.suscribeAndSave').removeClass('hideArrow');
+                $('.TrulyCheck').prop('checked', false);
+            }
+        });
+
+
+        //select option style 
+        $('.selectOption__Style').each(function () { 
+            var $this = $(this), numberOfOptions = $(this).children('option').length;
+
+            $this.addClass('select-hidden');
+            $this.wrap('<div class="select"></div>');
+            $this.after('<div class="select-styled"></div>');
+
+            var $styledSelect = $this.next('div.select-styled');
+            $styledSelect.text($this.children('option').eq(0).text());
+              
+            var $list = $('<ul />', {
+                'class': 'select-options',
+              'id':'parent_selectul' 
+            }).insertAfter($styledSelect);
+
+            for (var i = 0; i < numberOfOptions; i++) {
+                $('<li />', {
+                    text: $this.children('option').eq(i).text(),
+                    rel: $this.children('option').eq(i).val(),
+                 
+                }).appendTo($list);
+                //if ($this.children('option').eq(i).is(':selected')){
+                //  $('li[rel="' + $this.children('option').eq(i).val() + '"]').addClass('is-selected')
+                //}
+            }
+
+            var $listItems = $list.children('li');
+
+            $styledSelect.click(function (e) {
+                e.stopPropagation();
+                $('div.select-styled.active').not(this).each(function () {
+                    $(this).removeClass('active').next('ul.select-options').hide();
+                });
+                $(this).toggleClass('active').next('ul.select-options').toggle();
+            });
+
+            $listItems.click(function (e) {
+                e.stopPropagation();
+                $styledSelect.text($(this).text()).removeClass('active');
+                $this.val($(this).attr('rel'));
+                $list.hide();
+                //console.log($this.val());
+            });
+
+            $(document).click(function () {
+                $styledSelect.removeClass('active');
+                $list.hide();
+            });
+
+        });
+
+
+        $(".shopSliderThree").slick({
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            arrows: true,
+            adaptiveHeight: true,
+            dots: false,
+            responsive: [
+                { breakpoint: 990, settings: { slidesToShow: 2 } },
+                { breakpoint: 751, settings: { slidesToShow: 2, dots: false } },
+                { breakpoint: 576, settings: { slidesToShow: 1, dots: false } },
+            ],
+        });
+
+
+        $("#TestimonialSliderThree").slick({
+            autoplay: true,
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            arrows: true,
+            dots: true,
+            responsive: [
+                { breakpoint: 990, settings: { slidesToShow: 2, slidesToScroll: 2 } },
+                { breakpoint: 751, settings: { slidesToShow: 1, slidesToScroll: 1 } },
+            ],
+        });
+
+
+        //show/hide
+        $('.whatsNewBtn').click(function () {
+       
+            if ($(this).parents(".suscribe__product__Body").hasClass('show')) {
+                 $(this).parents(".suscribe__product__Body").removeClass('show');
+            } else {
+                $(".suscribe__product__Body").removeClass('show');
+                $(this).parents(".suscribe__product__Body").addClass('show');
+            }
+
+        });
+
+        
+        
+     });  
+  })(jQuery);
+</script>     
+
+{% endif %}
