@@ -1,3 +1,22 @@
+
+
+//input width 
+    $('#quantity').keypress(function (e) {
+       if(this.value.length >= '1'){
+        var set_width = ((this.value.length + 2) * 10) + 'px';
+      }
+      else{
+        var set_width =  '30px';
+      }
+
+      $('.quantity-selector').css('width', set_width);
+      var charCode = (e.which) ? e.which : event.keyCode    
+      if (String.fromCharCode(charCode).match(/[^0-9]/g))    
+        return false;                        
+    });
+
+
+
 // TIMER
 
 /*Product Avaliable back counter*/
