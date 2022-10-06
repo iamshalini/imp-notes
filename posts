@@ -1,0 +1,198 @@
+<?php 
+ /*
+template name:blog
+*/
+ get_header();
+
+ ?>
+
+<style>
+  * { font-family:Arial; }
+h2 { padding:0 0 5px 5px; }
+h2 a { color: #224f99; }
+a { color:#999; text-decoration: none; }
+a:hover { color:#802727; }
+p { padding:0 0 5px 0; }
+
+input { padding:5px; border:1px solid #999; border-radius:4px; -moz-border-radius:4px; -web-kit-border-radius:4px; -khtml-border-radius:4px; }
+	
+	#gradiant_btnRed {
+    background:grey;
+    color: black;
+    border: none;
+    font-size: 14px;
+    padding: 12px 22px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+	.gradiant_btn{
+	color: black;
+	border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 2px;
+	}
+	
+	
+	#common {
+	display:flex;
+		border-radius: 4px;
+		text-transform: uppercase;
+		font-weight: 600;
+		
+	}
+
+	
+	div#common li {
+    padding: 20px;
+}
+	
+  </style>
+
+<section class="made-for-you-outer blogpage__latestsctn">
+    <div class="container">
+        <div class="col-sm-12 heading-txt black-txt">
+            <h3>The Latest</h3>
+            <div class="btn-outer lightbluebtn">
+                <div class="comon-btn">TCM blog posts</div>	
+ 				
+	<?php
+		if( $terms = get_terms( array('taxonomy' => 'subjects', 'orderby' => 'asc' ) ) ) :?>
+			 <div id="common"> 
+				 <li class="category"> All </li> 			 
+				 <?php
+			  foreach( $terms as $term ){
+
+				?>  
+				<li class="<?php echo $term->name;?>"><?php echo  $term->name;?>	
+				
+				<?php
+    } 	?> </div>
+<?php
+		endif;
+	?>	
+				
+<!-- 	<button>Apply filter</button>
+	<input type="hidden" name="action"  class="gradiant_btn" value="myfilter"> -->
+
+<div id="response"></div>
+            </div>
+        </div>
+
+		 <div class="container2">
+        <div class="row">
+
+                <?php
+                    $args = array('post_type' => 'blog', 'orderby' => 'NAME' ,'posts_per_page' => 6);
+	
+                        $the_query = new WP_Query( $args ); 
+    
+                         if ( $the_query->have_posts() ) :
+            while ( $the_query->have_posts() ) : $the_query->the_post(); 
+//             $category = get_the_category(); 
+          $term_list = get_the_terms($post->ID, 'subjects');
+                        foreach($term_list as $term_single):
+                         $category = $term_single->name;
+
+          ?>  
+			             
+          <div class="col-md-4 col-sm-12 freebies-grid">
+                <div class="category-content blgpgeLtstCntnt">
+                    <div class="category-txt"> <?php echo $category;  ?> </div>
+                    <div class="heartLike">
+                        <button class="far fa-heart"></button>
+                    </div>
+                  
+     <h3><a href="<?php the_permalink();?>"> <?php the_title(); ?> </a> </h3>
+
+                </div>
+            </div>
+			
+	
+    <?php
+      endforeach; endwhile; endif; ?>
+			 
+			
+		
+<div class="btn__wrapper">
+  <a href="#" class="btn btn__primary" id="load-more">Load more</a>
+</div>
+    </div>
+</div>
+
+
+			 
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>	
+  			    
+      <script>
+//      var value = jQuery('select#gradiant_btnRed option:selected').val(); 
+// 		  alert ('value');
+// 		  
+ 		  jQuery(function($){
+		  $('#common li').on('click', function(event) {
+			  var category = $(this).text();
+			   $('.container2').empty();
+			 
+			  
+//               alert(category);
+			   (event).preventDefault(); 
+			 	  
+        $.ajax({
+            url:'<?php echo site_url() ?>/wp-admin/admin-ajax.php',
+            data: { 
+                action: 'filterterm', 
+                category:category, // form data
+                taxonomy:  $(this).data('subjects'),
+                posttype:  $(this).data('blog')
+                },
+            type: 'post',
+            success: function(result){
+				 $('.container2').append(result);
+            },
+            error: function(result){
+				
+                console.warn(result);
+            }
+        });
+    });
+	  
+	});	   	
+   </script>
+	 
+
+
+ <script>
+	 	 currentPage = 1; 
+        $(document).ready(function () {
+            $("#load-more").click(function () {
+    
+  currentPage++; 
+				
+  $.ajax({
+	     url:'<?php echo site_url() ?>/wp-admin/admin-ajax.php',
+            data: { 
+                action: 'custom_load_more', 
+                paged: currentPage,
+                },
+            type: 'post',
+            success: function(result){
+				 $('.container2').append(result);
+            },
+            error: function(result){
+				
+                console.warn(result);
+            }
+
+  });
+            });
+        });	
+		
+		</script>	
+		
+		
+		
+	
+
+			 
