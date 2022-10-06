@@ -2493,3 +2493,127 @@ $(window).resize(function(){
 </script>     
 
 {% endif %}
+//
+
+$(document).ready(function() {
+
+           
+      
+  function addEvent(obj, evt, fn) {
+    if (obj.addEventListener) {
+        obj.addEventListener(evt, fn, false);
+    } else if (obj.attachEvent) {
+        obj.attachEvent("on" + evt, fn);
+    }
+}
+
+addEvent(document, 'mouseout', function(evt) {
+    if (evt.toElement == null && evt.relatedTarget == null) {
+      jQuery.getJSON('/cart.js', function(cart) {
+        console.log(cart.item_count);
+      if(cart.item_count>0){
+          $('#exitpopup_bg').fadeIn();
+	      $('#exitpopup').fadeIn();
+        }
+      });
+    };
+      
+  if($( "#exitpopup" ).hasClass('click3')){
+       $('#exitpopup').empty();
+       $('#exitpopup').removeAttr("style");
+    }
+  
+      
+    });
+       
+  var count = 1;
+	    $('.interested').click(function(){
+		  $(".fornewuser").val('DiscoutForNew20');
+          $(".cartpopupcheckoutbtn").click();
+          
+        });
+          $('.not_interested, .close-popup, #exitpopup').click(function(){
+             
+		    $(".fornewuser").val('');
+            $('#exitpopup_bg').fadeOut();
+			$('#exitpopup').slideUp();
+           
+           $("#exitpopup").addClass('click'+ count++);
+         
+		});
+      $('.user_interested').click(function(){
+		  $(".fornewuser").val('');
+        
+          jQuery.getJSON('/cart.js', function(cart) {
+             var subscriptionpro = [];
+            var items = cart.items;
+           var exist_proid = {};
+            var variants = [];
+       
+         for(var i=0; i < items.length; i++){
+        if( items[i].line_price!= 0){  
+           console.log('/products/'+items[i].handle+'.js'); 
+               jQuery.getJSON('https://www.trulybeauty.com/products/'+items[i].handle+'.js', function(cartupdate) {
+             var variantdata = cartupdate.variants;
+                  
+            $.each(variantdata, function(i){
+           var selling_plan_id = variantdata[i].selling_plan_allocations[i].selling_plan_id; 
+        subscriptionpro.push({
+         id: variantdata[i].id,
+         selling_plan: selling_plan_id,
+          sellingplan_option: 'subscription'
+        });   
+      });
+  
+ }); 
+        }
+  }  
+            
+      $.ajax({
+                type: "POST",
+              url: '/cart/clear.js',
+              success: function(){
+                   var items = cart.items;
+             $.ajax({
+              url: "/cart/add.js",
+              type: 'POST',
+              dataType: 'json',
+              data: {items: subscriptionpro },
+              success: function (result) {
+                   ajaxfetchCart();
+                
+         }
+              });      
+              },
+              dataType: 'json'
+              });         
+            
+            
+      }); 
+   
+	});
+});
+  
+ // setTimeout(function() {
+ //   var items = cart.items;
+ //   var lineprice = {};
+ //       for(var i=0; i < items.length; i++){
+ //           if( items[i].line_price!= 0){  
+ //            $.ajax({
+ //              url: "/cart/add.js",
+ //              type: 'POST',
+ //              dataType: 'json',
+ //              data: {items: subscriptionpro },
+ //              success: function (result) {
+ //               applypromos(cart);
+                
+ //         }
+ //              }); 
+ //               }
+ //             };
+ //      }, 1000);
+
+
+//end exit-popup
+
+
