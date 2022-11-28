@@ -2617,3 +2617,20 @@ addEvent(document, 'mouseout', function(evt) {
 //end exit-popup
 
 
+//chat
+ $(document).on("click", '#share', function() {
+        if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            var text = jQuery("input[name=message]").val(); 
+           var num = jQuery("input[name=num]").val(); 
+        var message = encodeURIComponent(text);
+        var whatsapp_url = "whatsapp://send?phone=+971504413076&text="+message;
+        window.location.href = whatsapp_url;} 
+//         else { var whatsapp_urls = "whatsapp://send?phone=+9710568426511&text="+message;
+//         window.location.href = whatsapp_urls }});
+        if(/Chrome|Firefox|Safari|SamsungBrowser|Opera|Trident/i.test(navigator.userAgent)) {
+var text = jQuery("input[name=message]").val(); 
+window.location.href = "https://api.whatsapp.com/send/?phone=+971504413076&text="+text; 
+ 
+}
+      
+});
